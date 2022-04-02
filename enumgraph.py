@@ -37,6 +37,9 @@ class EnumGraph:
     def __repr__(self):
         return repr(self.vdict)
 
+    def __eq__(self, g):
+        return self.vdict == g.vdict
+
     def removeV(self, i):
         neighbors, self.vdict[i] = self.vdict[i], []
         self.V.remove(i)
@@ -75,7 +78,8 @@ class EnumGraph:
     def toPrufer(self):
         return deepcopy(self).destructiveToPrufer()
 
-    def fromPrufer(self, code):
+    @staticmethod
+    def fromPrufer(code):
         n = 2 + len(code);
         s = set(range(n))
         if(max(s) < max(code)):

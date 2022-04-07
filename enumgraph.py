@@ -40,6 +40,7 @@ class EnumGraph:
     def __eq__(self, g):
         return self.vdict == g.vdict
 
+    # W: O(|s|) where s is the set of vertices at most 2-edges away from i
     def removeV(self, i):
         neighbors, self.vdict[i] = self.vdict[i], []
         self.V.remove(i)
@@ -60,6 +61,7 @@ class EnumGraph:
     def dfsAll(self, gendfs):
         pass
 
+    # W: O(n^2)
     # destructive
     def destructiveToPrufer(self):
         if len(self.V) <= 2: 
@@ -75,9 +77,11 @@ class EnumGraph:
         self.removeV(minLeaf);
         return parent + self.destructiveToPrufer()
 
+    # W: O(n^2)
     def toPrufer(self):
         return deepcopy(self).destructiveToPrufer()
 
+    # W: O(n^2)
     @staticmethod
     def fromPrufer(code):
         n = 2 + len(code);
@@ -85,7 +89,7 @@ class EnumGraph:
         if(max(s) < max(code)):
             raise ValueError("vertices too large")
         w = deepcopy(code)
-        E = ds.deque()
+        E = ds.deque() # a dequeue of edges
         while len(w):
             minLeaf = min(filter(lambda x: x not in w, s))
             parent = w[0]

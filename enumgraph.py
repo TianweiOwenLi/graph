@@ -55,8 +55,14 @@ class EnumGraph:
     def addE(self, edge):
         pass
 
-    def genericDFS(self, visit, revisit, finish):
-        pass
+    @staticmethod
+    def genericDFS(G, visit, revisit, finish, sigma, X, v):
+        if v in X:
+            return (revisit(sigma, v), X)
+        sigma1, X1 = visit(sigma, v), X | {v}
+        for w in G.vdict[v]:
+            sigma1, X1 = genericDFS(G, visit, revisit, finish, sigma1, X1, w)
+        return (finish(sigma1, v), X1)
 
     def dfsAll(self, gendfs):
         pass
